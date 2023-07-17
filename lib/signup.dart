@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 // import 'package:flutter_inner_shadow/flutter_inner_shadow.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
-import 'package:music_app/signup.dart';
-import 'package:music_app/home.dart';
+import 'package:music_app/login.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   final double width;
   final double height;
 
-  const LoginScreen({super.key, required this.width, required this.height});
+  const SignUpScreen({super.key, required this.width, required this.height});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   bool _isPasswordHidden = true;
   @override
   Widget build(BuildContext context) {
@@ -206,19 +205,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   backgroundColor:
                                       const Color.fromARGB(0, 255, 255, 255),
                                   shadowColor: Colors.transparent),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const HomeScreen()));
-                              },
+                              onPressed: () {},
                               child: const Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      "Login",
+                                      "Sign Up",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'SfProDisplay'),
@@ -259,12 +252,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => SignUpScreen(
+                                        builder: (context) => LoginScreen(
                                             width: widget.width,
                                             height: widget.height)));
                               },
                               child: const Text(
-                                "Sign Up Instead",
+                                "Login Instead",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'SfProDisplay'),
