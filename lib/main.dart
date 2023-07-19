@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/state/state.dart';
+import 'package:provider/provider.dart';
 import 'login.dart';
 
 void main() {
-  runApp(const FirstPage());
+  runApp(ChangeNotifierProvider(
+    create: (context) => MusicPlayer(),
+    child: const FirstPage(),
+  ));
 }
 
 //this is the first page users see when they open the app
@@ -19,7 +24,6 @@ class FirstPage extends StatelessWidget {
       title: 'Music Player',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       home: FirstScreen(width: width, height: height),

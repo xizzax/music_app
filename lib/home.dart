@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:music_app/now_playing.dart';
+import 'package:music_app/state/state.dart';
+import 'package:provider/provider.dart';
 import 'all_files.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,34 +13,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // index of the current tab
-  int _currentTab = 0;
-  // list of pages to be displayed
-  // final List _pages = [
-  //   AllFiles(width: widget.width, height: widget.height,),
-  //   const Center(child: Text('Now Playing')),
-  //   const Center(child: Text('Profile')),
-  // ];
-  // function to change the current tab (we change the state)
-  _changeTab(int index) {
-    setState(() {
-      _currentTab = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    //variable from state
+    var state = context.watch<MusicPlayer>();
     //screen width and height
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
+    //list of pages we can cycle through
+    //index controlled by ephemeral state
     final List pages = [
       AllFiles(
         width: width,
         height: height,
       ),
-      const Center(child: Text("Now Playing")),
+      NowPlaying(
+        width: width,
+        height: height,
+      ),
       const Center(child: Text('Search')),
       const Center(child: Text('Profile')),
     ];
@@ -56,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
               radius: 0.3),
         ),
-        child: pages[_currentTab],
+        child: pages[state.current],
       ),
       bottomNavigationBar: Container(
         height: height * 0.085,
@@ -83,8 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
           type: BottomNavigationBarType.fixed,
           elevation: 0,
           backgroundColor: Colors.transparent,
-          currentIndex: _currentTab,
-          onTap: (index) => _changeTab(index),
+          currentIndex: state.current //index controlled by ephemeral state
+          ,
+          onTap: (index) => state.setPage(index),
           unselectedItemColor: const Color.fromRGBO(59, 79, 125, 0.5),
           selectedItemColor: const Color.fromRGBO(59, 79, 125, 1),
           // selectedIconTheme: const IconThemeData(

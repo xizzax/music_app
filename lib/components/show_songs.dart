@@ -1,13 +1,19 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:just_audio/just_audio.dart';
 
 // we're going to use this widget to display songs
 class ShowSongs extends StatefulWidget {
   final OnAudioQuery audioQuery;
   final double totalHeight;
+  final AudioPlayer audioPlayer;
   const ShowSongs(
-      {super.key, required this.audioQuery, required this.totalHeight});
+      {super.key,
+      required this.audioQuery,
+      required this.totalHeight,
+      required this.audioPlayer});
 
   @override
   State<ShowSongs> createState() => _ShowSongsState();
@@ -42,7 +48,7 @@ class _ShowSongsState extends State<ShowSongs> {
             scrollDirection: Axis.vertical,
             // shrinkWrap: true,
             itemBuilder: ((context, index) => Container(
-                  height: widget.totalHeight * 0.1,
+                  // height: widget.totalHeight * 0.1,
                   decoration: const BoxDecoration(
                     color: Colors.transparent,
                     // borderRadius:
@@ -54,15 +60,30 @@ class _ShowSongsState extends State<ShowSongs> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
+                          boxShadow: const [
+                            BoxShadow(
+                              blurRadius: 3,
+                              color: Color.fromRGBO(191, 202, 228, 1),
+                              offset: Offset(2, 2),
+                              inset: true,
+                            ),
+                            BoxShadow(
+                              blurRadius: 3,
+                              color: Color.fromRGBO(226, 233, 255, 1),
+                              offset: Offset(-2, -2),
+                              inset: true,
+                            )
+                          ],
                           border: Border.all(
-                              color: Color.fromRGBO(191, 202, 228, 0.75))),
+                              color:
+                                  const Color.fromRGBO(191, 202, 228, 0.75))),
                       child: ListTile(
-                        visualDensity: VisualDensity(vertical: -4),
+                        visualDensity: const VisualDensity(vertical: -4),
                         contentPadding: EdgeInsets.only(
                             left: widget.totalHeight * 0.02,
                             right: widget.totalHeight * 0.02),
                         leading: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
@@ -77,7 +98,7 @@ class _ShowSongsState extends State<ShowSongs> {
                               )
                             ],
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.play_arrow,
                             size: 25,
                             color: Color.fromRGBO(59, 79, 125, 1),
@@ -85,7 +106,7 @@ class _ShowSongsState extends State<ShowSongs> {
                         ),
                         title: Text(
                           item.data![index].title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color.fromRGBO(59, 79, 125, 1),
                             fontFamily: 'SfProDisplay',
                             fontSize: 15,
@@ -95,7 +116,7 @@ class _ShowSongsState extends State<ShowSongs> {
                           item.data![index].artist! +
                               " | " +
                               item.data![index].album!,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color.fromRGBO(59, 79, 125, 0.75),
                             fontFamily: 'SfProNormalDisplay',
                             fontSize: 11,
@@ -108,7 +129,7 @@ class _ShowSongsState extends State<ShowSongs> {
                           child: Container(
                             width: 30,
                             height: 30,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
@@ -123,13 +144,19 @@ class _ShowSongsState extends State<ShowSongs> {
                                 )
                               ],
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.favorite_outline_rounded,
                               size: 22,
                               color: Color.fromRGBO(59, 79, 125, 1),
                             ),
                           ),
                         ),
+                        onTap: () async {
+                          String? uri = item.data![index].uri;
+                          await widget.audioPlayer
+                              .setAudioSource(AudioSource.uri(Uri.parse(uri!)));
+                          await widget.audioPlayer.play();
+                        },
                       ),
                     ),
                   ),

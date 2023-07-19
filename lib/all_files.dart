@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_app/components/show_songs.dart';
 import 'components/background_gradient.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -17,11 +18,20 @@ class AllFiles extends StatefulWidget {
 class _AllFilesState extends State<AllFiles> {
   //defining an onAudio plugin
   final OnAudioQuery _audioQuery = OnAudioQuery();
+  //defining the player
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
     requestStoragePermission();
+  }
+
+//disposing the player once we're
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   @override
@@ -91,6 +101,7 @@ class _AllFilesState extends State<AllFiles> {
               child: ShowSongs(
                 audioQuery: _audioQuery,
                 totalHeight: widget.height,
+                audioPlayer: _audioPlayer,
               ),
             ),
           ],
