@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:music_app/components/show_songs.dart';
+import 'package:music_app/state/state.dart';
+import 'package:provider/provider.dart';
 import 'components/background_gradient.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 
 class AllFiles extends StatefulWidget {
   final double width;
@@ -16,28 +16,31 @@ class AllFiles extends StatefulWidget {
 }
 
 class _AllFilesState extends State<AllFiles> {
-  //defining an onAudio plugin
-  final OnAudioQuery _audioQuery = OnAudioQuery();
-  //defining the player
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  // //defining an onAudio plugin
+  // final OnAudioQuery _audioQuery = OnAudioQuery();
+  // //defining the player
+  // final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
-    requestStoragePermission();
+    Future.delayed(Duration.zero, () {
+      requestStoragePermission();
+    });
   }
 
 //disposing the player once we're
   @override
   void dispose() {
-    _audioPlayer.dispose();
+    // Future.delayed(Duration.zero, () {
+    //   Provider.of(context, listen: false).audioPlayer.dispose();
+    // });
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // double height = MediaQuery.of(context).size.height;
-    // double width = MediaQuery.of(context).size.width;
+    var state = context.watch<MusicPlayer>();
 
     return Scaffold(
       body: Container(
@@ -99,9 +102,9 @@ class _AllFilesState extends State<AllFiles> {
             SizedBox(
               height: widget.height * 0.5,
               child: ShowSongs(
-                audioQuery: _audioQuery,
+                // audioQuery: state.audioQuery,
                 totalHeight: widget.height,
-                audioPlayer: _audioPlayer,
+                // audioPlayer: state.audioPlayer,
               ),
             ),
           ],
@@ -112,9 +115,14 @@ class _AllFilesState extends State<AllFiles> {
 
   void requestStoragePermission() async {
     if (!kIsWeb) {
-      bool permissionStatus = await _audioQuery.permissionsStatus();
+      bool permissionStatus =
+          await Provider.of<MusicPlayer>(context, listen: false)
+              .audioQuery
+              .permissionsStatus();
       if (!permissionStatus) {
-        await _audioQuery.permissionsRequest();
+        await Provider.of<MusicPlayer>(context, listen: false)
+            .audioQuery
+            .permissionsRequest();
       }
       // to ensure the build method is called
       setState(() {});

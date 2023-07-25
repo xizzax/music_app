@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:music_app/state/state.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:just_audio/just_audio.dart';
+// import 'package:just_audio/just_audio.dart';
+import 'package:provider/provider.dart';
 
 // we're going to use this widget to display songs
 class ShowSongs extends StatefulWidget {
-  final OnAudioQuery audioQuery;
+  // final OnAudioQuery audioQuery;
   final double totalHeight;
-  final AudioPlayer audioPlayer;
-  const ShowSongs(
-      {super.key,
-      required this.audioQuery,
-      required this.totalHeight,
-      required this.audioPlayer});
+  // final AudioPlayer audioPlayer;
+  const ShowSongs({
+    super.key,
+    required this.totalHeight,
+  });
 
   @override
   State<ShowSongs> createState() => _ShowSongsState();
@@ -22,8 +23,9 @@ class ShowSongs extends StatefulWidget {
 class _ShowSongsState extends State<ShowSongs> {
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<MusicPlayer>();
     return FutureBuilder<List<SongModel>>(
-      future: widget.audioQuery.querySongs(
+      future: state.audioQuery.querySongs(
         sortType: null,
         orderType: OrderType.ASC_OR_SMALLER,
         uriType: UriType.EXTERNAL,
@@ -152,10 +154,11 @@ class _ShowSongsState extends State<ShowSongs> {
                           ),
                         ),
                         onTap: () async {
-                          String? uri = item.data![index].uri;
-                          await widget.audioPlayer
-                              .setAudioSource(AudioSource.uri(Uri.parse(uri!)));
-                          await widget.audioPlayer.play();
+                          // String? uri = item.data![index].uri;
+                          await state.audioPlayer.setAudioSource(
+                              state.createPlaylist(item.data!),
+                              initialIndex: index);
+                          state.play(item.data![index], index);
                         },
                       ),
                     ),

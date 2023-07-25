@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/home.dart';
 import 'package:music_app/state/state.dart';
 import 'package:provider/provider.dart';
 import 'login.dart';
@@ -26,7 +27,7 @@ class FirstPage extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: FirstScreen(width: width, height: height),
+      home: const HomeScreen(),
     );
   }
 }
