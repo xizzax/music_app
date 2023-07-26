@@ -16,8 +16,8 @@ class _PlayButtonState extends State<PlayButton> {
   Widget build(BuildContext context) {
     var state = context.watch<MusicPlayer>();
     return Container(
-      height: 80,
-      width: 80,
+      height: 70,
+      width: 70,
       child: GestureDetector(
         child: Stack(
           children: [
@@ -25,8 +25,8 @@ class _PlayButtonState extends State<PlayButton> {
               left: 0,
               top: 0,
               child: Container(
-                height: 80,
-                width: 80,
+                height: 70,
+                width: 70,
                 decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: LinearGradient(colors: [
@@ -39,8 +39,8 @@ class _PlayButtonState extends State<PlayButton> {
               left: 5,
               top: 5,
               child: Container(
-                  height: 70,
-                  width: 70,
+                  height: 60,
+                  width: 60,
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(colors: [
@@ -84,8 +84,8 @@ class _PreviousButtonState extends State<PreviousButton> {
 
     return GestureDetector(
       child: Container(
-        height: 80,
-        width: 80,
+        height: 65,
+        width: 65,
         decoration: BoxDecoration(
             color: Color(0xffe6e7fd),
             shape: BoxShape.circle,
@@ -114,8 +114,6 @@ class _PreviousButtonState extends State<PreviousButton> {
         setState(() {
           _isPressed = true;
         });
-        Fluttertoast.showToast(msg: "previous");
-        // state.audioPlayer.previousIndex;
         state.audioPlayer.seekToPrevious();
         await Future.delayed(Duration(milliseconds: 75));
         setState(() {
@@ -141,8 +139,8 @@ class _NextButtonState extends State<NextButton> {
 
     return GestureDetector(
       child: Container(
-        height: 80,
-        width: 80,
+        height: 65,
+        width: 65,
         decoration: BoxDecoration(
             color: Color(0xffe6e7fd),
             shape: BoxShape.circle,
@@ -171,14 +169,100 @@ class _NextButtonState extends State<NextButton> {
         setState(() {
           _isPressed = true;
         });
-        Fluttertoast.showToast(msg: "next");
-        Fluttertoast.showToast(msg: state.audioPlayer.nextIndex.toString());
         state.audioPlayer.seekToNext();
         await Future.delayed(Duration(milliseconds: 75));
         setState(() {
           _isPressed = false;
         });
       },
+    );
+  }
+}
+
+class ShuffleButton extends StatefulWidget {
+  const ShuffleButton({super.key});
+
+  @override
+  State<ShuffleButton> createState() => _ShuffleButtonState();
+}
+
+class _ShuffleButtonState extends State<ShuffleButton> {
+  bool isPressed = false;
+  final _gradient = LinearGradient(colors: [
+    Color.fromRGBO(126, 139, 238, 1),
+    Color.fromRGBO(94, 111, 228, 1),
+  ], begin: Alignment.topLeft, end: Alignment.bottomRight);
+  final _pressedGradient = LinearGradient(colors: [
+    Color.fromRGBO(81, 99, 224, 1),
+    Color.fromRGBO(136, 147, 240, 1),
+  ], begin: Alignment.topLeft, end: Alignment.bottomRight);
+
+  @override
+  Widget build(BuildContext context) {
+    var state = context.watch<MusicPlayer>();
+
+    return Container(
+      height: 60,
+      width: 60,
+      child: GestureDetector(
+        child: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xFFD0D2F2),
+                        blurRadius: 1,
+                        offset: Offset(4, 4),
+                        spreadRadius: 1,
+                      ),
+                      BoxShadow(
+                        color: Color(0xFFF6F9FF),
+                        blurRadius: 1,
+                        offset: Offset(-4, -4),
+                        spreadRadius: 1,
+                      )
+                    ],
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(colors: [
+                      Color.fromRGBO(126, 139, 238, 1),
+                      Color.fromRGBO(94, 111, 228, 1),
+                    ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
+              ),
+            ),
+            Positioned(
+              left: 5,
+              top: 5,
+              child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: isPressed ? _pressedGradient : _gradient),
+                  child: const Center(
+                      child: Icon(
+                    Icons.shuffle_rounded,
+                    color: Colors.white,
+                  ))),
+            ),
+          ],
+        ),
+        onTap: () async {
+          setState(() {
+            isPressed = true;
+          });
+          state.shuffleAll();
+          await Future.delayed(Duration(milliseconds: 85));
+          setState(() {
+            isPressed = false;
+          });
+        },
+      ),
     );
   }
 }

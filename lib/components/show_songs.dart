@@ -32,6 +32,7 @@ class _ShowSongsState extends State<ShowSongs> {
         ignoreCase: true,
       ),
       builder: (context, item) {
+        MusicPlayer.allSongs.clear();
         //show loading for the time being
         if (item.data == null) {
           return const Center(
@@ -45,6 +46,8 @@ class _ShowSongsState extends State<ShowSongs> {
           );
         }
         //once the songs are fetched and are ready to be shown
+        MusicPlayer.allSongs = [...item.data!];
+
         return ListView.builder(
             itemCount: item.data!.length,
             scrollDirection: Axis.vertical,
@@ -122,35 +125,6 @@ class _ShowSongsState extends State<ShowSongs> {
                             color: Color.fromRGBO(59, 79, 125, 0.75),
                             fontFamily: 'SfProNormalDisplay',
                             fontSize: 11,
-                          ),
-                        ),
-                        trailing: GestureDetector(
-                          onTap: () {
-                            Fluttertoast.showToast(msg: "Favorited!");
-                          },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 2,
-                                  color: Color.fromRGBO(191, 202, 228, 1),
-                                  offset: Offset(2, 2),
-                                ),
-                                BoxShadow(
-                                  blurRadius: 2,
-                                  color: Color.fromRGBO(226, 233, 255, 1),
-                                  offset: Offset(-2, -2),
-                                )
-                              ],
-                            ),
-                            child: const Icon(
-                              Icons.favorite_outline_rounded,
-                              size: 22,
-                              color: Color.fromRGBO(59, 79, 125, 1),
-                            ),
                           ),
                         ),
                         onTap: () async {

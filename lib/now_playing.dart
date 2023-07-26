@@ -2,10 +2,13 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:music_app/components/background_gradient.dart';
 import 'package:music_app/components/buttons.dart';
+import 'package:music_app/components/loop_button.dart';
 import 'package:music_app/components/slider.dart';
 import 'package:music_app/state/state.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
+
+import 'components/shuffle_button.dart';
 
 class NowPlaying extends StatefulWidget {
   final double width;
@@ -37,16 +40,19 @@ class _NowPlayingState extends State<NowPlaying> {
         child: Column(children: [
           //now playing
           SizedBox(
-            height: widget.height * 0.13,
-            child: const Center(
-                child: Text(
-              "Now Playing",
-              style: TextStyle(
-                color: Color.fromRGBO(59, 79, 125, 1),
-                fontFamily: 'SfProDisplay',
-                fontWeight: FontWeight.w500,
+            height: widget.height * 0.11,
+            child: const Padding(
+              padding: EdgeInsets.only(top: 40.0),
+              child: Text(
+                "Now Playing",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color.fromRGBO(59, 79, 125, 1),
+                  fontFamily: 'SfProDisplay',
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            )),
+            ),
           ),
           //artwork
           SizedBox(
@@ -122,21 +128,39 @@ class _NowPlayingState extends State<NowPlaying> {
               )),
           //slider and buttons
           SizedBox(
-            height: widget.height * 0.25,
+            height: widget.height * 0.30,
             child: Column(children: [
               SizedBox(
                 height: widget.height * 0.1,
                 child: const SliderBar(),
               ),
               SizedBox(
-                height: widget.height * 0.15,
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                height: widget.height * 0.2,
+                child: Column(
                   children: [
-                    PreviousButton(),
-                    PlayButton(),
-                    NextButton(),
+                    Container(
+                      height: widget.height * 0.1,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PreviousButton(),
+                          PlayButton(),
+                          NextButton(),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: widget.height * 0.1,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ShuffleBtn(),
+                          LoopBtn(),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               )

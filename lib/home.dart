@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:music_app/now_playing.dart';
+import 'package:music_app/search.dart';
 import 'package:music_app/state/state.dart';
 import 'package:provider/provider.dart';
 import 'all_files.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,6 +17,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      requestStoragePermission();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     //variable from state
@@ -32,7 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
         width: width,
         height: height,
       ),
-      const Center(child: Text('Search')),
+      SearchPage(
+        height: height,
+        width: width,
+      ),
       const Center(child: Text('Profile')),
     ];
 
@@ -165,5 +180,21 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void requestStoragePermission() async {
+    if (!kIsWeb) {
+      bool permissionStatus =
+          await Provider.of<MusicPlayer>(context, listen: false)
+              .audioQuery
+              .permissionsStatus();
+      if (!permissionStatus) {
+        await Provider.of<MusicPlayer>(context, listen: false)
+            .audioQuery
+            .permissionsRequest();
+      }
+      // to ensure the build method is called
+      setState(() {});
+    }
   }
 }

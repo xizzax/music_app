@@ -26,7 +26,9 @@ class MusicPlayer extends ChangeNotifier {
   var currentlyPlaying;
   int currentlyPlayingIndex = 0;
   // all songs
-  List<SongModel> allSongs = [];
+  static List<SongModel> allSongs = [];
+  // current playlist
+  List<SongModel> currentPlaylist = [];
 
   //setting the page to be displayed
   void setPage(index) {
@@ -35,10 +37,13 @@ class MusicPlayer extends ChangeNotifier {
   }
 
 // for managing the state of the pause/play button
-  void changePlaying() {
+  void changePlaying() async {
     // playing = !playing;
-
-    if (audioPlayer.playing) {
+    if (currentlyPlaying == null) {
+      await audioPlayer.setAudioSource(createPlaylist(allSongs),
+          initialIndex: 0);
+      play(allSongs[0], 0);
+    } else if (audioPlayer.playing) {
       audioPlayer.pause();
       playing = false;
     } else {
@@ -57,9 +62,14 @@ class MusicPlayer extends ChangeNotifier {
     notifyListeners();
   }
 
+  void shuffleAll() async {
+    await audioPlayer.setShuffleModeEnabled(true);
+    await audioPlayer.shuffle();
+  }
+
   ConcatenatingAudioSource createPlaylist(List<SongModel> songs) {
-    allSongs.clear();
-    allSongs = songs;
+    currentPlaylist.clear();
+    currentPlaylist = [...songs];
     List<AudioSource> sources = [];
     for (var song in songs) {
       sources.add(AudioSource.uri(Uri.parse(song.uri!)));
@@ -68,9 +78,9 @@ class MusicPlayer extends ChangeNotifier {
   }
 
   void updateCurrentPlayingDetails(int index) {
-    if (allSongs.isNotEmpty) {
+    if (currentPlaylist.isNotEmpty) {
       currentlyPlayingIndex = index;
-      currentlyPlaying = allSongs[index];
+      currentlyPlaying = currentPlaylist[index];
     } else {
       currentlyPlaying = null;
       playing = false;
