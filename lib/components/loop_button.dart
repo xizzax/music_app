@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_app/state/state.dart';
 import 'package:provider/provider.dart';
 
@@ -46,9 +47,18 @@ class _LoopBtnState extends State<LoopBtn> {
         ),
       ),
       onTap: () async {
-        setState(() {
-          _isPressed = !_isPressed;
-        });
+        if (state.audioPlayer.loopMode == LoopMode.all) {
+          await state.audioPlayer.setLoopMode(LoopMode.off);
+          setState(() {
+            _isPressed = false;
+          });
+        } else {
+          await state.audioPlayer.setLoopMode(LoopMode.all);
+
+          setState(() {
+            _isPressed = true;
+          });
+        }
       },
     );
   }

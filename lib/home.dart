@@ -17,13 +17,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      requestStoragePermission();
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Future.delayed(Duration.zero, () {
+  //     requestStoragePermission();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -182,19 +182,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void requestStoragePermission() async {
-    if (!kIsWeb) {
-      bool permissionStatus =
-          await Provider.of<MusicPlayer>(context, listen: false)
-              .audioQuery
-              .permissionsStatus();
-      if (!permissionStatus) {
-        await Provider.of<MusicPlayer>(context, listen: false)
-            .audioQuery
-            .permissionsRequest();
-      }
-      // to ensure the build method is called
-      setState(() {});
-    }
-  }
+  // void requestStoragePermission() async {
+  //   if (!kIsWeb) {
+  //     bool permissionStatus =
+  //         await Provider.of<MusicPlayer>(context, listen: false)
+  //             .audioQuery
+  //             .permissionsStatus();
+  //     if (!permissionStatus) {
+  //       await Provider.of<MusicPlayer>(context, listen: false)
+  //           .audioQuery
+  //           .permissionsRequest();
+  //     }
+  //     // to ensure the build method is called
+  //     setState(() {});
+  //   }
+  // }
 }

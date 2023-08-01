@@ -3,9 +3,11 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:music_app/components/buttons.dart';
 import 'package:music_app/components/show_songs.dart';
+// import 'package:music_app/components/show_songs_grouped.dart';
 import 'package:music_app/state/state.dart';
 import 'package:provider/provider.dart';
 import 'components/background_gradient.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class AllFiles extends StatefulWidget {
   final double width;
@@ -16,27 +18,22 @@ class AllFiles extends StatefulWidget {
   State<AllFiles> createState() => _AllFilesState();
 }
 
+List<String> sortByOptions = [
+  "Title",
+  "Artist",
+  "Album",
+];
+
 class _AllFilesState extends State<AllFiles> {
-  // //defining an onAudio plugin
-  // final OnAudioQuery _audioQuery = OnAudioQuery();
-  // //defining the player
-  // final AudioPlayer _audioPlayer = AudioPlayer();
+  String dropdownValue = sortByOptions.first;
+  SongSortType sortBy = SongSortType.TITLE;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Future.delayed(Duration.zero, () {
-  //     requestStoragePermission();
-  //   });
-  // }
-
-//disposing the player once we're
   @override
-  void dispose() {
-    // Future.delayed(Duration.zero, () {
-    //   Provider.of(context, listen: false).audioPlayer.dispose();
-    // });
-    super.dispose();
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      requestStoragePermission();
+    });
   }
 
   @override
@@ -92,16 +89,73 @@ class _AllFilesState extends State<AllFiles> {
                   height: widget.height * 0.06,
                   child: Padding(
                     padding: EdgeInsets.only(
-                        left: widget.height * 0.02, top: widget.height * 0.02),
-                    child: Text(
-                      "Device Files",
-                      style: TextStyle(
-                        color: Color.fromRGBO(59, 79, 125, 1),
-                        fontFamily: 'SfProDisplay',
-                        fontSize: widget.height * 0.03,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.left,
+                        left: widget.height * 0.02,
+                        top: widget.height * 0.02,
+                        right: widget.height * 0.025),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          "Device Files",
+                          style: TextStyle(
+                            color: const Color.fromRGBO(59, 79, 125, 1),
+                            fontFamily: 'SfProDisplay',
+                            fontSize: widget.height * 0.03,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        SizedBox(
+                          width: widget.width * 0.5,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Sort By: ",
+                                style: TextStyle(
+                                  color: const Color.fromRGBO(59, 79, 125, 1),
+                                  fontFamily: 'SfProDisplay',
+                                  fontSize: widget.height * 0.02,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              DropdownButton<String>(
+                                  underline: Container(),
+                                  dropdownColor: Color(0xffe6e7fd),
+                                  value: dropdownValue,
+                                  alignment: AlignmentDirectional.center,
+                                  style: TextStyle(
+                                    color: const Color.fromRGBO(59, 79, 125, 1),
+                                    fontFamily: 'SfProDisplay',
+                                    fontSize: widget.height * 0.02,
+                                    fontWeight: FontWeight.w200,
+                                  ),
+                                  items: sortByOptions
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      dropdownValue = value!;
+                                      if (value == "Title") {
+                                        sortBy = SongSortType.TITLE;
+                                      } else if (value == "Album") {
+                                        sortBy = SongSortType.ALBUM;
+                                      } else if (value == "Artist") {
+                                        sortBy = SongSortType.ARTIST;
+                                      }
+                                    });
+                                  })
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -110,6 +164,7 @@ class _AllFilesState extends State<AllFiles> {
                   child: ShowSongs(
                     // audioQuery: state.audioQuery,
                     totalHeight: widget.height,
+                    sortBy: sortBy,
                     // audioPlayer: state.audioPlayer,
                   ),
                 ),
@@ -121,19 +176,19 @@ class _AllFilesState extends State<AllFiles> {
     );
   }
 
-  // void requestStoragePermission() async {
-  //   if (!kIsWeb) {
-  //     bool permissionStatus =
-  //         await Provider.of<MusicPlayer>(context, listen: false)
-  //             .audioQuery
-  //             .permissionsStatus();
-  //     if (!permissionStatus) {
-  //       await Provider.of<MusicPlayer>(context, listen: false)
-  //           .audioQuery
-  //           .permissionsRequest();
-  //     }
-  //     // to ensure the build method is called
-  //     setState(() {});
-  //   }
-  // }
+  void requestStoragePermission() async {
+    if (!kIsWeb) {
+      bool permissionStatus =
+          await Provider.of<MusicPlayer>(context, listen: false)
+              .audioQuery
+              .permissionsStatus();
+      if (!permissionStatus) {
+        await Provider.of<MusicPlayer>(context, listen: false)
+            .audioQuery
+            .permissionsRequest();
+      }
+      // to ensure the build method is called
+      setState(() {});
+    }
+  }
 }

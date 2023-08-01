@@ -46,9 +46,20 @@ class _ShuffleBtnState extends State<ShuffleBtn> {
         ),
       ),
       onTap: () async {
-        setState(() {
-          _isPressed = !_isPressed;
-        });
+        // Fluttertoast.showToast(msg: "shuffle");
+
+        if (state.audioPlayer.shuffleModeEnabled) {
+          await state.audioPlayer.setShuffleModeEnabled(false);
+          setState(() {
+            _isPressed = false;
+          });
+        } else {
+          await state.audioPlayer.setShuffleModeEnabled(true);
+          await state.audioPlayer.shuffle();
+          setState(() {
+            _isPressed = true;
+          });
+        }
       },
     );
   }

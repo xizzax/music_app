@@ -93,7 +93,7 @@ class _NowPlayingState extends State<NowPlaying> {
 
           //name and artist
           SizedBox(
-              height: widget.height * 0.2,
+              height: widget.height * 0.20,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
