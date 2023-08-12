@@ -22,20 +22,20 @@ class _ShuffleBtnState extends State<ShuffleBtn> {
         height: 50,
         width: 50,
         decoration: BoxDecoration(
-            color: Color(0xffe6e7fd),
+            color: const Color(0xffe6e7fd),
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Color(0xFFD0D2F2),
+                color: const Color(0xFFD0D2F2),
                 blurRadius: 8,
-                offset: Offset(4, 4),
+                offset: const Offset(4, 4),
                 spreadRadius: 0,
                 inset: _isPressed,
               ),
               BoxShadow(
-                color: Color(0xFFF6F9FF),
+                color: const Color(0xFFF6F9FF),
                 blurRadius: 8,
-                offset: Offset(-4, -4),
+                offset: const Offset(-4, -4),
                 spreadRadius: 0,
                 inset: _isPressed,
               )

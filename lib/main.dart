@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:music_app/home.dart';
 import 'package:music_app/state/state.dart';
 import 'package:provider/provider.dart';
-import 'login.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -131,7 +130,7 @@ class FirstScreen extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Color.fromRGBO(234, 239, 255, 1),
                             blurRadius: 1.0,
@@ -160,8 +159,7 @@ class FirstScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => LoginScreen(
-                                      width: width, height: height))));
+                                  builder: ((context) => const HomeScreen())));
                         },
                         child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

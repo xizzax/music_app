@@ -42,7 +42,7 @@ class _NowPlayingState extends State<NowPlaying> {
           SizedBox(
             height: widget.height * 0.11,
             child: const Padding(
-              padding: EdgeInsets.only(top: 40.0),
+              padding: EdgeInsets.only(top: 35.0),
               child: Text(
                 "Now Playing",
                 textAlign: TextAlign.center,
@@ -56,10 +56,10 @@ class _NowPlayingState extends State<NowPlaying> {
           ),
           //artwork
           SizedBox(
-            height: widget.height * 0.3,
+            height: widget.height * 0.25,
             child: Container(
-                width: widget.height * 0.3,
-                height: widget.height * 0.3,
+                width: widget.height * 0.25,
+                height: widget.height * 0.25,
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(colors: [
                       Color.fromRGBO(231, 238, 255, 0.9),
@@ -98,14 +98,14 @@ class _NowPlayingState extends State<NowPlaying> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   state.currentlyPlaying == null
-                      ? Center()
+                      ? const Center()
                       : Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Center(
                             child: Text(
                               state.currentlyPlaying.title,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color.fromRGBO(59, 79, 125, 1),
                                 fontFamily: 'SfProDisplay',
                                 fontSize: 22,
@@ -115,10 +115,10 @@ class _NowPlayingState extends State<NowPlaying> {
                           ),
                         ),
                   state.currentlyPlaying == null
-                      ? Center()
+                      ? const Center()
                       : Text(
                           state.currentlyPlaying.artist,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color.fromRGBO(59, 79, 125, 0.75),
                             fontFamily: 'SfProNormalDisplay',
                             fontSize: 15,
@@ -128,19 +128,19 @@ class _NowPlayingState extends State<NowPlaying> {
               )),
           //slider and buttons
           SizedBox(
-            height: widget.height * 0.30,
+            height: widget.height * 0.35,
             child: Column(children: [
               SizedBox(
                 height: widget.height * 0.1,
                 child: const SliderBar(),
               ),
               SizedBox(
-                height: widget.height * 0.2,
+                height: widget.height * 0.24,
                 child: Column(
                   children: [
                     Container(
                       height: widget.height * 0.1,
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -152,7 +152,7 @@ class _NowPlayingState extends State<NowPlaying> {
                     ),
                     Container(
                       height: widget.height * 0.1,
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [

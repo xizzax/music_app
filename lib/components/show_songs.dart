@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_app/all_files.dart';
+import 'package:music_app/components/background_gradient.dart';
 import 'package:music_app/state/state.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -143,6 +145,47 @@ class _ShowSongsState extends State<ShowSongs> {
                                     initialIndex: index);
                                 state.play(item.data![index], index);
                               },
+                              onLongPress: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                        elevation: 15,
+                                        shadowColor: const Color.fromRGBO(
+                                            191, 202, 228, 1),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            showAndSelectPlaylists(
+                                                context, item.data![index]);
+                                          },
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: backgroundGradient,
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                              ),
+                                              child: const Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 20,
+                                                    bottom: 20,
+                                                    left: 10,
+                                                    right: 10),
+                                                child: Text(
+                                                  "Add to playlist",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        59, 79, 125, 1),
+                                                    fontFamily: 'SfProDisplay',
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              )),
+                                        ),
+                                      );
+                                    });
+                              },
                             ),
                           ),
                         ),
@@ -178,17 +221,14 @@ class _ShowSongsState extends State<ShowSongs> {
                                     alphabets[index]);
                               }
 
-                              print(song.title);
+                              // print(song.title);
                               int i = MusicPlayer.allSongs.indexOf(song);
-                              print(i);
-                              // _scrollController.animateTo(i,
-                              //     duration: Duration(seconds: 1),
-                              //     curve: Curves.bounceIn);
+                              // print(i);
                               _scrollController.jumpTo(index: i);
                             },
                             child: Text(
                               alphabets[index],
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color.fromRGBO(59, 79, 125, 0.75),
                                 fontFamily: 'SfProNormalDisplay',
                                 fontSize: 16,
@@ -198,7 +238,7 @@ class _ShowSongsState extends State<ShowSongs> {
                         );
                       });
                 }
-                return Text("*");
+                return const Text(" ");
               })),
             ),
           ],
@@ -225,6 +265,119 @@ class _ShowSongsState extends State<ShowSongs> {
       }
     }
     return letters;
+  }
+
+  void showAndSelectPlaylists(context, SongModel song) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: backgroundGradient,
+                  borderRadius: BorderRadius.circular(25)),
+              height: 500,
+              width: 500,
+              child: FutureBuilder(
+                future: Provider.of<MusicPlayer>(context, listen: false)
+                    .audioQuery
+                    .queryPlaylists(),
+                builder: (context, item) {
+                  if (item.data == null) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (item.data!.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "No playlists yet",
+                        style: TextStyle(
+                          color: Color.fromRGBO(59, 79, 125, 1),
+                          fontFamily: 'SfProDisplay',
+                          fontSize: 15,
+                        ),
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                      itemCount: item.data!.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.transparent,
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    bool permission =
+                                        await Provider.of<MusicPlayer>(context,
+                                                listen: false)
+                                            .audioQuery
+                                            .permissionsRequest();
+                                    // print("Permission status: ");
+                                    // print(permission);
+
+                                    // print(song.id);
+                                    // print(item.data![index].getMap);
+
+                                    await Provider.of<MusicPlayer>(context,
+                                            listen: false)
+                                        .audioQuery
+                                        .addToPlaylist(
+                                            item.data![index].getMap["_id"],
+                                            song.id);
+
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              blurRadius: 3,
+                                              color: Color.fromRGBO(
+                                                  191, 202, 228, 1),
+                                              offset: Offset(2, 2),
+                                              inset: true,
+                                            ),
+                                            BoxShadow(
+                                              blurRadius: 3,
+                                              color: Color.fromRGBO(
+                                                  226, 233, 255, 1),
+                                              offset: Offset(-2, -2),
+                                              inset: true,
+                                            )
+                                          ],
+                                          border: Border.all(
+                                              color: const Color.fromRGBO(
+                                                  191, 202, 228, 0.75))),
+                                      child: ListTile(
+                                        visualDensity:
+                                            const VisualDensity(vertical: -4),
+                                        contentPadding: EdgeInsets.only(
+                                          left: 10,
+                                          right: 10,
+                                        ),
+                                        title: Text(
+                                          item.data![index].playlist,
+                                          style: const TextStyle(
+                                            color:
+                                                Color.fromRGBO(59, 79, 125, 1),
+                                            fontFamily: 'SfProDisplay',
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      )),
+                                )));
+                      });
+                },
+              ),
+            ),
+          );
+        });
   }
 }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app/state/state.dart';
 import 'package:provider/provider.dart';
@@ -23,20 +22,20 @@ class _LoopBtnState extends State<LoopBtn> {
         height: 50,
         width: 50,
         decoration: BoxDecoration(
-            color: Color(0xffe6e7fd),
+            color: const Color(0xffe6e7fd),
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Color(0xFFD0D2F2),
+                color: const Color(0xFFD0D2F2),
                 blurRadius: 8,
-                offset: Offset(4, 4),
+                offset: const Offset(4, 4),
                 spreadRadius: 0,
                 inset: _isPressed,
               ),
               BoxShadow(
-                color: Color(0xFFF6F9FF),
+                color: const Color(0xFFF6F9FF),
                 blurRadius: 8,
-                offset: Offset(-4, -4),
+                offset: const Offset(-4, -4),
                 spreadRadius: 0,
                 inset: _isPressed,
               )

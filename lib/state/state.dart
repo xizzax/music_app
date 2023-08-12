@@ -29,6 +29,7 @@ class MusicPlayer extends ChangeNotifier {
   static List<SongModel> allSongs = [];
   // current playlist
   List<SongModel> currentPlaylist = [];
+  late ConcatenatingAudioSource currentQueue;
 
   //setting the page to be displayed
   void setPage(index) {
@@ -74,6 +75,7 @@ class MusicPlayer extends ChangeNotifier {
     for (var song in songs) {
       sources.add(AudioSource.uri(Uri.parse(song.uri!)));
     }
+    currentQueue = ConcatenatingAudioSource(children: sources);
     return ConcatenatingAudioSource(children: sources);
   }
 

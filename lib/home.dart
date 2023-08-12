@@ -3,11 +3,11 @@ import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:music_app/now_playing.dart';
+import 'package:music_app/playlists.dart';
 import 'package:music_app/search.dart';
 import 'package:music_app/state/state.dart';
 import 'package:provider/provider.dart';
 import 'all_files.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,7 +48,10 @@ class _HomeScreenState extends State<HomeScreen> {
         height: height,
         width: width,
       ),
-      const Center(child: Text('Profile')),
+      PlaylistPage(
+        width: width,
+        height: height,
+      ),
     ];
 
     return Scaffold(
@@ -103,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // ),
           showUnselectedLabels: false,
           showSelectedLabels: false,
-          items: [
+          items: const [
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.library_music_rounded,

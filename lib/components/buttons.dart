@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:music_app/state/state.dart';
 import 'package:provider/provider.dart';
 
@@ -87,20 +86,20 @@ class _PreviousButtonState extends State<PreviousButton> {
         height: 65,
         width: 65,
         decoration: BoxDecoration(
-            color: Color(0xffe6e7fd),
+            color: const Color(0xffe6e7fd),
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Color(0xFFD0D2F2),
+                color: const Color(0xFFD0D2F2),
                 blurRadius: 8,
-                offset: Offset(4, 4),
+                offset: const Offset(4, 4),
                 spreadRadius: 0,
                 inset: _isPressed,
               ),
               BoxShadow(
-                color: Color(0xFFF6F9FF),
+                color: const Color(0xFFF6F9FF),
                 blurRadius: 8,
-                offset: Offset(-4, -4),
+                offset: const Offset(-4, -4),
                 spreadRadius: 0,
                 inset: _isPressed,
               )
@@ -115,7 +114,7 @@ class _PreviousButtonState extends State<PreviousButton> {
           _isPressed = true;
         });
         state.audioPlayer.seekToPrevious();
-        await Future.delayed(Duration(milliseconds: 75));
+        await Future.delayed(const Duration(milliseconds: 75));
         setState(() {
           _isPressed = false;
         });
@@ -142,20 +141,20 @@ class _NextButtonState extends State<NextButton> {
         height: 65,
         width: 65,
         decoration: BoxDecoration(
-            color: Color(0xffe6e7fd),
+            color: const Color(0xffe6e7fd),
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Color(0xFFD0D2F2),
+                color: const Color(0xFFD0D2F2),
                 blurRadius: 8,
-                offset: Offset(4, 4),
+                offset: const Offset(4, 4),
                 spreadRadius: 0,
                 inset: _isPressed,
               ),
               BoxShadow(
-                color: Color(0xFFF6F9FF),
+                color: const Color(0xFFF6F9FF),
                 blurRadius: 8,
-                offset: Offset(-4, -4),
+                offset: const Offset(-4, -4),
                 spreadRadius: 0,
                 inset: _isPressed,
               )
@@ -170,7 +169,7 @@ class _NextButtonState extends State<NextButton> {
           _isPressed = true;
         });
         state.audioPlayer.seekToNext();
-        await Future.delayed(Duration(milliseconds: 75));
+        await Future.delayed(const Duration(milliseconds: 75));
         setState(() {
           _isPressed = false;
         });
@@ -188,11 +187,11 @@ class ShuffleButton extends StatefulWidget {
 
 class _ShuffleButtonState extends State<ShuffleButton> {
   bool isPressed = false;
-  final _gradient = LinearGradient(colors: [
+  final _gradient = const LinearGradient(colors: [
     Color.fromRGBO(126, 139, 238, 1),
     Color.fromRGBO(94, 111, 228, 1),
   ], begin: Alignment.topLeft, end: Alignment.bottomRight);
-  final _pressedGradient = LinearGradient(colors: [
+  final _pressedGradient = const LinearGradient(colors: [
     Color.fromRGBO(81, 99, 224, 1),
     Color.fromRGBO(136, 147, 240, 1),
   ], begin: Alignment.topLeft, end: Alignment.bottomRight);
@@ -257,7 +256,7 @@ class _ShuffleButtonState extends State<ShuffleButton> {
             isPressed = true;
           });
           state.shuffleAll();
-          await Future.delayed(Duration(milliseconds: 85));
+          await Future.delayed(const Duration(milliseconds: 85));
           setState(() {
             isPressed = false;
           });

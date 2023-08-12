@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
-import 'package:music_app/components/buttons.dart';
 import 'package:music_app/components/show_songs.dart';
-// import 'package:music_app/components/show_songs_grouped.dart';
 import 'package:music_app/state/state.dart';
 import 'package:provider/provider.dart';
 import 'components/background_gradient.dart';
@@ -123,7 +121,7 @@ class _AllFilesState extends State<AllFiles> {
                               ),
                               DropdownButton<String>(
                                   underline: Container(),
-                                  dropdownColor: Color(0xffe6e7fd),
+                                  dropdownColor: const Color(0xffe6e7fd),
                                   value: dropdownValue,
                                   alignment: AlignmentDirectional.center,
                                   style: TextStyle(

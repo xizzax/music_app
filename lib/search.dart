@@ -101,7 +101,13 @@ class _SearchPageState extends State<SearchPage> {
                   ? SizedBox(
                       height: widget.height * 0.75,
                       child: const Center(
-                        child: Text("Search"),
+                        child: Text(
+                          "Search",
+                          style: TextStyle(
+                            fontFamily: 'SfProDisplay',
+                            color: Color.fromRGBO(59, 79, 125, 1),
+                          ),
+                        ),
                       ),
                     )
                   : SizedBox(
@@ -181,9 +187,7 @@ class _SearchPageState extends State<SearchPage> {
                                         ),
                                       ),
                                       subtitle: Text(
-                                        foundSongs[index].artist! +
-                                            " | " +
-                                            foundSongs[index].album!,
+                                        "${foundSongs[index].artist!} | ${foundSongs[index].album!}",
                                         style: const TextStyle(
                                           color:
                                               Color.fromRGBO(59, 79, 125, 0.75),
