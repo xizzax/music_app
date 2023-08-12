@@ -26,7 +26,10 @@ class FirstPage extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: FirstScreen(
+        width: width,
+        height: height,
+      ),
     );
   }
 }
